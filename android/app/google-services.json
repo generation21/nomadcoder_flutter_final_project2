@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "989387077624",
+    "project_id": "nomadcoder-final-project2-hsb",
+    "storage_bucket": "nomadcoder-final-project2-hsb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989387077624:android:2022cd8c5831842989880d",
+        "android_client_info": {
+          "package_name": "com.example.nomadcoder_flutter_final_project2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHnU9sX3u_3PK25SoTRH2eBDHqctCEBn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
