@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nomadcoder_flutter_final_project2/core/constants/gaps.dart';
-import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
 
-class SingUpScreen extends ConsumerStatefulWidget {
-  const SingUpScreen({super.key});
+class SignUpScreen extends ConsumerStatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SingUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
 }
 
-class _SingUpScreenState extends ConsumerState<SingUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,18 +33,19 @@ class _SingUpScreenState extends ConsumerState<SingUpScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Join!"),
+            Text("Join!", style: AppTextStyles.bodyText1),
+            Gaps.v20,
             TextField(
               decoration: InputDecoration(
                 hintText: "Email",
-                hintStyle: AppTextStyles.bodyText3,
+                hintStyle: AppTextStyles.caption,
               ),
             ),
-            const SizedBox(height: AppDimensions.md),
+            Gaps.v20,
             TextField(
               decoration: InputDecoration(
                 hintText: "Password",
-                hintStyle: AppTextStyles.bodyText3,
+                hintStyle: AppTextStyles.caption,
               ),
             ),
             Gaps.v20,

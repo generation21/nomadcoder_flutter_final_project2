@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart';
+import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
 
 class Button extends StatelessWidget {
   final String text;
@@ -35,10 +36,7 @@ class Button extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppTextStyles.button,
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_theme.dart';
 import 'package:nomadcoder_flutter_final_project2/firebase_options.dart';
-import 'package:nomadcoder_flutter_final_project2/presentation/screens/sign_up/sing_up_screen.dart';
+import 'package:nomadcoder_flutter_final_project2/presentation/screens/sign_up/sign_up_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'mood tracker app',
       theme: AppTheme.lightTheme,
 
-      home: const SingUpScreen(),
+      home: const SignUpScreen(),
     );
   }
 }
