@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 import 'app_dimensions.dart';
@@ -35,6 +36,12 @@ class AppTheme {
           ),
           elevation: AppDimensions.buttonElevation,
         ),
+      ),
+
+      bottomAppBarTheme: const BottomAppBarTheme(
+        color: AppColors.secondaryColor,
+        elevation: 0,
+        height: Sizes.size96,
       ),
 
       // Input Decoration Theme

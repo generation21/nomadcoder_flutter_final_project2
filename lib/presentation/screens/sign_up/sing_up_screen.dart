@@ -54,8 +54,6 @@ class _SingUpScreenState extends ConsumerState<SingUpScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: Sizes.size96,
-        color: AppColors.secondaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppDimensions.xxl),
           child: Column(children: [Button(text: 'Log in ->', onTap: () {})]),
