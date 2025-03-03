@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
@@ -41,8 +42,8 @@ class AppTextStyles {
 
   // Body Styles
   static TextStyle get bodyText1 => const TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
     letterSpacing: 0.5,
   );
 
@@ -61,7 +62,7 @@ class AppTextStyles {
 
   // Button Style
   static TextStyle get button => const TextStyle(
-    fontSize: 14,
+    fontSize: Sizes.size16,
     fontWeight: FontWeight.bold,
     letterSpacing: 0.4,
     color: AppColors.textPrimary,
@@ -69,7 +70,7 @@ class AppTextStyles {
 
   // Caption Style
   static TextStyle get caption => TextStyle(
-    fontSize: 12,
+    fontSize: Sizes.size18,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.4,
     color: Colors.grey.shade600,
