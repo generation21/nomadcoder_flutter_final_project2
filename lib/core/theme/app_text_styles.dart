@@ -62,14 +62,16 @@ class AppTextStyles {
   // Button Style
   static TextStyle get button => const TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 1.25,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 0.4,
+    color: AppColors.textPrimary,
   );
 
   // Caption Style
-  static TextStyle get caption => const TextStyle(
+  static TextStyle get caption => TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.4,
+    color: Colors.grey.shade600,
   );
 }
