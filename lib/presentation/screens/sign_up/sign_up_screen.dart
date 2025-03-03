@@ -36,6 +36,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           "🔥 MOOD 🔥",
@@ -47,56 +48,69 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.xxl),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Join!", style: AppTextStyles.bodyText1),
-              Gaps.v20,
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: AppTextStyles.caption,
-                ),
-                validator: (value) => isValidEmail(value ?? ''),
-                onSaved: (value) {
-                  email = value ?? '';
-                },
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppDimensions.xxl),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Gaps.v128,
+                  Text("Join!", style: AppTextStyles.bodyText1),
+                  Gaps.v20,
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Email",
+                      hintStyle: AppTextStyles.caption,
+                    ),
+                    validator: (value) => isValidEmail(value ?? ''),
+                    onSaved: (value) {
+                      email = value ?? '';
+                    },
+                  ),
+                  Gaps.v20,
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      hintStyle: AppTextStyles.caption,
+                    ),
+                    validator: (value) => isValidPassword(value ?? ''),
+                    onSaved: (value) {
+                      password = value ?? '';
+                    },
+                  ),
+                  Gaps.v20,
+                  Button(
+                    text: 'Create Account',
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        print(email);
+                        print(password);
+                      }
+                    },
+                  ),
+                ],
               ),
-              Gaps.v20,
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  hintStyle: AppTextStyles.caption,
-                ),
-                validator: (value) => isValidPassword(value ?? ''),
-                onSaved: (value) {
-                  password = value ?? '';
-                },
-              ),
-              Gaps.v20,
-              Button(
-                text: 'Create Account',
-                onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    print(email);
-                    print(password);
-                  }
-                },
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.xxl),
-          child: Column(children: [Button(text: 'Log in ->', onTap: () {})]),
-        ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: BottomAppBar(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.xxl,
+                ),
+                child: Column(
+                  children: [Button(text: 'Log in ->', onTap: () {})],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
