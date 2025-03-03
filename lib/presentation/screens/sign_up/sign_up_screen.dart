@@ -14,6 +14,25 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final formKey = GlobalKey<FormState>();
+
+  String email = '';
+  String password = '';
+
+  String? isValidEmail(String value) {
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+      return 'Invalid email';
+    }
+    return null;
+  }
+
+  String? isValidPassword(String value) {
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,27 +49,47 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: AppDimensions.xxl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Join!", style: AppTextStyles.bodyText1),
-            Gaps.v20,
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Email",
-                hintStyle: AppTextStyles.caption,
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Join!", style: AppTextStyles.bodyText1),
+              Gaps.v20,
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  hintStyle: AppTextStyles.caption,
+                ),
+                validator: (value) => isValidEmail(value ?? ''),
+                onSaved: (value) {
+                  email = value ?? '';
+                },
               ),
-            ),
-            Gaps.v20,
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Password",
-                hintStyle: AppTextStyles.caption,
+              Gaps.v20,
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  hintStyle: AppTextStyles.caption,
+                ),
+                validator: (value) => isValidPassword(value ?? ''),
+                onSaved: (value) {
+                  password = value ?? '';
+                },
               ),
-            ),
-            Gaps.v20,
-            Button(text: 'Create Account', onTap: () {}),
-          ],
+              Gaps.v20,
+              Button(
+                text: 'Create Account',
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    print(email);
+                    print(password);
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
