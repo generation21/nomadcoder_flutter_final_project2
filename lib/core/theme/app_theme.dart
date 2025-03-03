@@ -26,16 +26,6 @@ class AppTheme {
         foregroundColor: AppColors.textPrimary,
         titleTextStyle: AppTextStyles.title1,
       ),
-
-      // Card Theme
-      cardTheme: CardTheme(
-        color: AppColors.cardColor,
-        elevation: AppDimensions.cardElevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
-        ),
-      ),
-
       // Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -50,10 +40,10 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.cardColor,
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: Colors.black),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.md,

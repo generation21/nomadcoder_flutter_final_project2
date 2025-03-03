@@ -7,7 +7,7 @@ class AppTextStyles {
   // Headline Styles
   static TextStyle get headline1 => const TextStyle(
     fontSize: 96,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.bold,
     letterSpacing: -1.5,
   );
 
@@ -50,6 +50,13 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.25,
+  );
+
+  static TextStyle get bodyText3 => TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w300,
+    color: Colors.grey.shade600,
+    letterSpacing: 0.4,
   );
 
   // Button Style
