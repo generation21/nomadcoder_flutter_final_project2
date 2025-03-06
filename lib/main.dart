@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_theme.dart';
 import 'package:nomadcoder_flutter_final_project2/firebase_options.dart';
-import 'package:nomadcoder_flutter_final_project2/presentation/screens/sign_up/sign_up_screen.dart';
+import 'core/routes/router_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,16 +12,16 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    return MaterialApp.router(
       title: 'mood tracker app',
       theme: AppTheme.lightTheme,
-
-      home: const SignUpScreen(),
+      routerConfig: router,
     );
   }
 }

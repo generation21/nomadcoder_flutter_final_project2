@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nomadcoder_flutter_final_project2/core/constants/gaps.dart';
+import 'package:nomadcoder_flutter_final_project2/core/constants/router_const.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
 
-class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+class SignInScreen extends ConsumerStatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   final formKey = GlobalKey<FormState>();
 
   String email = '';
@@ -57,7 +59,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               child: Column(
                 children: [
                   Gaps.v128,
-                  Text("Join!", style: AppTextStyles.bodyText1),
+                  Text("Welcome!", style: AppTextStyles.bodyText1),
                   Gaps.v20,
                   TextFormField(
                     decoration: InputDecoration(
@@ -82,7 +84,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   Gaps.v20,
                   Button(
-                    text: 'Create Account',
+                    text: 'Enter',
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
@@ -105,7 +107,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   horizontal: AppDimensions.xxl,
                 ),
                 child: Column(
-                  children: [Button(text: 'Log in ->', onTap: () {})],
+                  children: [
+                    Button(
+                      text: 'Create an account ->',
+                      onTap: () => context.goNamed(RouteNames.signup),
+                    ),
+                  ],
                 ),
               ),
             ),

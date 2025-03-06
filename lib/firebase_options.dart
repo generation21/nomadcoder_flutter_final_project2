@@ -71,4 +71,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'nomadcoder-final-project2-hsb.firebasestorage.app',
     iosBundleId: 'com.example.nomadcoderFlutterFinalProject2',
   );
+
 }
