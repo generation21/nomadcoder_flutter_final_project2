@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nomadcoder_flutter_final_project2/core/config/env_config.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_theme.dart';
 import 'package:nomadcoder_flutter_final_project2/firebase_options.dart';
 import 'core/routes/router_provider.dart';
@@ -8,6 +10,9 @@ import 'core/routes/router_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await dotenv.load(fileName: ".env");
+  EnvConfig.init(env: Environment.local);
 
   runApp(const ProviderScope(child: MyApp()));
 }
