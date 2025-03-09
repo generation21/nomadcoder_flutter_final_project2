@@ -8,6 +8,7 @@ import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
 import 'package:nomadcoder_flutter_final_project2/core/utlis/auth_logic.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
+import 'package:nomadcoder_flutter_final_project2/presentation/widgets/snackbar_card.dart';
 import 'package:nomadcoder_flutter_final_project2/providers/auth/auth_repository_provider.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
@@ -38,16 +39,13 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final authState = ref.read(authStateProvider);
 
     if (authState.hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('로그인 실패: ${authState.error.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBarCard.error(message: authState.error.toString()));
     } else if (!authState.isLoading) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('로그인 성공!'), backgroundColor: Colors.green),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBarCard.success(message: '로그인 성공!'));
 
       context.go(RoutePath.home);
     }

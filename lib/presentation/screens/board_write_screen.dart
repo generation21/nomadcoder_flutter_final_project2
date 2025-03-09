@@ -6,6 +6,7 @@ import 'package:nomadcoder_flutter_final_project2/core/constants/router_const.da
 import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
+import 'package:nomadcoder_flutter_final_project2/presentation/widgets/snackbar_card.dart';
 import 'package:nomadcoder_flutter_final_project2/providers/auth/auth_repository_provider.dart';
 import 'package:nomadcoder_flutter_final_project2/providers/board/board_repository_provider.dart';
 
@@ -27,14 +28,14 @@ class _BoardWriteScreenState extends ConsumerState<BoardWriteScreen> {
     if (selectedEmojiIndex == -1) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please select an emoji')));
+      ).showSnackBar(SnackBarCard.error(message: 'Please select an emoji'));
       return;
     }
 
     if (_textController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please write a message')));
+      ).showSnackBar(SnackBarCard.error(message: 'Please write a message'));
       return;
     }
 
