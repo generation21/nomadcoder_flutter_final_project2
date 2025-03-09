@@ -44,6 +44,12 @@ class AppTheme {
         height: Sizes.size96,
       ),
 
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColors.secondaryColor,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
+      ),
+
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
