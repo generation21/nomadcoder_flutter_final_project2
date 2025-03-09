@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:nomadcoder_flutter_final_project2/core/network/api_client.dart';
 import 'package:nomadcoder_flutter_final_project2/models/board/board_model.dart';
-import 'package:nomadcoder_flutter_final_project2/repositories/auth_repository.dart';
 
 class BoardRepository {
   final ApiClient _apiClient;
@@ -27,13 +26,10 @@ class BoardRepository {
   Future<BoardModel> createBoard({
     required String mood,
     required String text,
-    required String userId,
   }) async {
-    Options options = Options(headers: {'current-user-id': userId});
     try {
       final response = await _apiClient.post(
         '$_prefix/create',
-        options: options,
         data: {'mood': mood, 'text': text},
       );
       return BoardModel.fromJson(response.data);
@@ -45,13 +41,9 @@ class BoardRepository {
   }
 
   // 게시글 삭제하기
-  Future<void> deleteBoard({
-    required String boardId,
-    required String userId,
-  }) async {
-    Options options = Options(headers: {'current-user-id': userId});
+  Future<void> deleteBoard({required String boardId}) async {
     try {
-      await _apiClient.delete('$_prefix/delete/$boardId', options: options);
+      await _apiClient.delete('$_prefix/delete/$boardId');
     } on DioException catch (e) {
       throw Exception('게시글 삭제에 실패했습니다: ${e.message}');
     } catch (e) {
@@ -59,16 +51,9 @@ class BoardRepository {
     }
   }
 
-  Future<bool> isBoardOwner({
-    required String boardId,
-    required String userId,
-  }) async {
-    Options options = Options(headers: {'current-user-id': userId});
+  Future<bool> isBoardOwner({required String boardId}) async {
     try {
-      final response = await _apiClient.get(
-        '$_prefix/check_owner/$boardId',
-        options: options,
-      );
+      final response = await _apiClient.get('$_prefix/check_owner/$boardId');
       return response.data['is_owner'];
     } on DioException catch (e) {
       throw Exception('게시글 소유자 확인에 실패했습니다: ${e.message}');

@@ -8,7 +8,7 @@ import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/emoji_card.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/snackbar_card.dart';
-import 'package:nomadcoder_flutter_final_project2/providers/auth/auth_repository_provider.dart';
+
 import 'package:nomadcoder_flutter_final_project2/providers/board/board_repository_provider.dart';
 
 class BoardWriteScreen extends ConsumerStatefulWidget {
@@ -45,7 +45,6 @@ class _BoardWriteScreenState extends ConsumerState<BoardWriteScreen> {
         .createBoard(
           mood: emojis[selectedEmojiIndex],
           text: _textController.text,
-          userId: ref.read(authRepositoryProvider).getCurrentUserId(),
         )
         .then((value) {
           if (mounted) {

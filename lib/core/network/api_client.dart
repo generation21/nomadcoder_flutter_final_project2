@@ -4,9 +4,10 @@ import 'package:nomadcoder_flutter_final_project2/repositories/auth_repository.d
 
 class ApiClient {
   late final Dio _dio;
-  // final AuthRepository _authRepository;
+  final Future<String?> Function()? _getCurrentUserId;
 
-  ApiClient() {
+  ApiClient({Future<String?> Function()? getCurrentUserId})
+    : _getCurrentUserId = getCurrentUserId {
     _dio = Dio(
       BaseOptions(
         baseUrl: EnvConfig.instance.apiBaseUrl,
@@ -23,10 +24,10 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // if (_authRepository.currentUser != null) {
-          //   options.headers['current-user-id'] =
-          //       _authRepository.currentUser!.uid;
-          // }
+          final userId = await _getCurrentUserId?.call();
+          if (userId != null) {
+            options.headers['current-user-id'] = userId;
+          }
           return handler.next(options);
         },
         onResponse: (response, handler) {

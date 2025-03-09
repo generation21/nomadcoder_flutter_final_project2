@@ -9,7 +9,12 @@ part 'user_repository_provider.g.dart';
 
 @riverpod
 ApiClient apiClient(Ref ref) {
-  return ApiClient();
+  return ApiClient(
+    getCurrentUserId: () async {
+      final authState = ref.read(authStateStreamProvider).value;
+      return authState?.uid;
+    },
+  );
 }
 
 // 사용자 저장소 프로바이더

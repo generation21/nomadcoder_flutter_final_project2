@@ -18,17 +18,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> deleteBoard(String id) async {
-    final user = ref.read(authRepositoryProvider);
     final isOwner = await ref
         .read(boardRepositoryProvider)
-        .isBoardOwner(boardId: id, userId: user.getCurrentUserId());
+        .isBoardOwner(boardId: id);
     if (isOwner) {
-      ref
-          .read(boardRepositoryProvider)
-          .deleteBoard(boardId: id, userId: user.getCurrentUserId());
+      ref.read(boardRepositoryProvider).deleteBoard(boardId: id);
       ref.invalidate(boardListProviderProvider);
     } else {
-      if (context.mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(content: Text('게시글 삭제 권한이 없습니다.')));
