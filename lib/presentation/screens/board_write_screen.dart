@@ -56,85 +56,87 @@ class _BoardWriteScreenState extends ConsumerState<BoardWriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gaps.v48,
-            const Text(
-              'How do you feel?',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Gaps.v16,
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(Sizes.size12)),
-                border: Border(
-                  bottom: BorderSide(color: Colors.black, width: Sizes.size3),
-                  top: BorderSide(color: Colors.black, width: Sizes.size1),
-                  left: BorderSide(color: Colors.black, width: Sizes.size1),
-                  right: BorderSide(color: Colors.black, width: Sizes.size1),
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gaps.v48,
+              const Text(
+                'How do you feel?',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              child: TextField(
-                controller: _textController,
-                maxLines: 7,
-                minLines: 7,
-                decoration: InputDecoration(
-                  hintText: 'Write it down here!',
-                  hintStyle: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: Sizes.size12,
-                    fontWeight: FontWeight.normal,
+              Gaps.v16,
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(Sizes.size12)),
+                  border: Border(
+                    bottom: BorderSide(color: Colors.black, width: Sizes.size3),
+                    top: BorderSide(color: Colors.black, width: Sizes.size1),
+                    left: BorderSide(color: Colors.black, width: Sizes.size1),
+                    right: BorderSide(color: Colors.black, width: Sizes.size1),
                   ),
-                  filled: true,
-                  fillColor: AppColors.secondaryColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.size12),
-                    borderSide: BorderSide.none,
-                  ),
+                ),
+                child: TextField(
+                  controller: _textController,
+                  maxLines: 7,
+                  minLines: 7,
+                  decoration: InputDecoration(
+                    hintText: 'Write it down here!',
+                    hintStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: Sizes.size12,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    filled: true,
+                    fillColor: AppColors.secondaryColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(Sizes.size12),
+                      borderSide: BorderSide.none,
+                    ),
 
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: Sizes.size12,
-                    horizontal: Sizes.size12,
-                  ),
-                ),
-              ),
-            ),
-            Gaps.v24,
-            const Text("What's your mood?"),
-            Gaps.v8,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (var i = 0; i < emojis.length; i++) ...[
-                  Gaps.h12,
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedEmojiIndex = i;
-                      });
-                    },
-                    child: EmojiCard(
-                      index: i,
-                      emoji: emojis[i],
-                      selectedEmojiIndex: selectedEmojiIndex,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: Sizes.size12,
+                      horizontal: Sizes.size12,
                     ),
                   ),
-                ],
-              ],
-            ),
-            Gaps.v56,
-            Center(
-              child: Button(
-                text: "Post",
-                onTap: _onPostButtonTap,
-                width: Sizes.size96 * 3,
+                ),
               ),
-            ),
-          ],
+              Gaps.v24,
+              const Text("What's your mood?"),
+              Gaps.v8,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (var i = 0; i < emojis.length; i++) ...[
+                    Gaps.h12,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedEmojiIndex = i;
+                        });
+                      },
+                      child: EmojiCard(
+                        index: i,
+                        emoji: emojis[i],
+                        selectedEmojiIndex: selectedEmojiIndex,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              Gaps.v56,
+              Center(
+                child: Button(
+                  text: "Post",
+                  onTap: _onPostButtonTap,
+                  width: Sizes.size96 * 3,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -59,7 +59,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final isLoading = authState.isLoading;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           "🔥 MOOD 🔥",

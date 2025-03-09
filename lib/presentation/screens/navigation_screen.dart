@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nomadcoder_flutter_final_project2/core/constants/sizes.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
