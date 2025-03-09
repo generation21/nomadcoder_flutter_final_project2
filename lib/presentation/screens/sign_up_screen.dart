@@ -6,6 +6,7 @@ import 'package:nomadcoder_flutter_final_project2/core/constants/router_const.da
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
+import 'package:nomadcoder_flutter_final_project2/core/utlis/auth_logic.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
 import 'package:nomadcoder_flutter_final_project2/providers/auth/auth_repository_provider.dart';
 
@@ -22,39 +23,46 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String email = '';
   String password = '';
 
-  String? isValidEmail(String value) {
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Invalid email';
-    }
-    return null;
-  }
-
-  String? isValidPassword(String value) {
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
-    }
-    return null;
-  }
+  bool _obscurePassword = true;
 
   void signUp() async {
-    final authRepository = ref.read(authRepositoryProvider);
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
 
-    try {
-      const AsyncValue.loading();
-      await AsyncValue.guard(
-        () => authRepository.signup(email: email, password: password),
-      );
+      // authState provider를 사용하여 회원가입 진행
+      await ref
+          .read(authStateProvider.notifier)
+          .signUp(email: email, password: password);
 
-      if (context.mounted) {
+      // 비동기 작업 이후 mounted 체크
+      if (!mounted) return;
+
+      final authState = ref.read(authStateProvider);
+
+      if (authState.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('회원가입 실패: ${authState.error.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else if (!authState.isLoading) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('회원가입 성공!'),
+            backgroundColor: Colors.green,
+          ),
+        );
         context.go(RoutePath.home);
       }
-    } catch (e) {
-      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authStateProvider);
+    final isLoading = authState.isLoading;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -79,36 +87,86 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   Gaps.v128,
                   Text("Join!", style: AppTextStyles.bodyText1),
                   Gaps.v20,
+                  // 이메일 필드
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: "Email",
                       hintStyle: AppTextStyles.caption,
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.buttonRadius,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
                     ),
-                    validator: (value) => isValidEmail(value ?? ''),
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) => AuthLogic().isValidEmail(value ?? ''),
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                     onSaved: (value) {
                       email = value ?? '';
                     },
+                    enabled: !isLoading,
                   ),
                   Gaps.v20,
+                  // 비밀번호 필드
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: "Password",
                       hintStyle: AppTextStyles.caption,
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.buttonRadius,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
                     ),
-                    validator: (value) => isValidPassword(value ?? ''),
+                    obscureText: _obscurePassword,
+                    textInputAction: TextInputAction.next,
+                    validator:
+                        (value) => AuthLogic().isValidPassword(value ?? ''),
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
                     onSaved: (value) {
                       password = value ?? '';
                     },
+                    enabled: !isLoading,
                   ),
+
                   Gaps.v20,
+                  // 회원가입 버튼
                   Button(
                     text: 'Create Account',
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        signUp();
-                      }
-                    },
+                    isLoading: isLoading,
+                    onTap: isLoading ? null : signUp,
                   ),
                 ],
               ),
@@ -127,13 +185,20 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   children: [
                     Button(
                       text: 'Log in ->',
-                      onTap: () => context.go(RoutePath.signin),
+                      onTap:
+                          isLoading ? null : () => context.go(RoutePath.signin),
                     ),
                   ],
                 ),
               ),
             ),
           ),
+          // 로딩 인디케이터
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
         ],
       ),
     );

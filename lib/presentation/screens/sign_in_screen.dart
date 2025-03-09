@@ -6,7 +6,9 @@ import 'package:nomadcoder_flutter_final_project2/core/constants/router_const.da
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_colors.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_dimensions.dart';
 import 'package:nomadcoder_flutter_final_project2/core/theme/app_text_styles.dart';
+import 'package:nomadcoder_flutter_final_project2/core/utlis/auth_logic.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/widgets/button.dart';
+import 'package:nomadcoder_flutter_final_project2/providers/auth/auth_repository_provider.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -21,22 +23,41 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   String email = '';
   String password = '';
 
-  String? isValidEmail(String value) {
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Invalid email';
-    }
-    return null;
-  }
+  bool _obscurePassword = true;
 
-  String? isValidPassword(String value) {
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
+  void signIn() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      await ref
+          .read(authStateProvider.notifier)
+          .signIn(email: email, password: password);
     }
-    return null;
+
+    if (!mounted) return;
+
+    final authState = ref.read(authStateProvider);
+
+    if (authState.hasError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('로그인 실패: ${authState.error.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (!authState.isLoading) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('로그인 성공!'), backgroundColor: Colors.green),
+      );
+
+      context.go(RoutePath.home);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authStateProvider);
+    final isLoading = authState.isLoading;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -65,34 +86,75 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     decoration: InputDecoration(
                       hintText: "Email",
                       hintStyle: AppTextStyles.caption,
+                      prefixIcon: const Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.buttonRadius,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
                     ),
-                    validator: (value) => isValidEmail(value ?? ''),
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) => AuthLogic().isValidEmail(value ?? ''),
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                     onSaved: (value) {
                       email = value ?? '';
                     },
+                    enabled: !isLoading,
                   ),
                   Gaps.v20,
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: "Password",
                       hintStyle: AppTextStyles.caption,
+                      prefixIcon: const Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.buttonRadius,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
                     ),
-                    validator: (value) => isValidPassword(value ?? ''),
+                    obscureText: _obscurePassword,
+                    textInputAction: TextInputAction.next,
+                    validator:
+                        (value) => AuthLogic().isValidPassword(value ?? ''),
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
                     onSaved: (value) {
                       password = value ?? '';
                     },
+                    enabled: !isLoading,
                   ),
                   Gaps.v20,
-                  Button(
-                    text: 'Enter',
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        print(email);
-                        print(password);
-                      }
-                    },
-                  ),
+                  Button(text: 'Enter', onTap: signIn),
                 ],
               ),
             ),
