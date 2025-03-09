@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nomadcoder_flutter_final_project2/core/constants/router_const.dart';
+import 'package:nomadcoder_flutter_final_project2/presentation/screens/board_write_screen.dart';
+import 'package:nomadcoder_flutter_final_project2/presentation/screens/home_screen.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/screens/navigation_screen.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/screens/sign_in_screen.dart';
 import 'package:nomadcoder_flutter_final_project2/presentation/screens/sign_up_screen.dart';
@@ -39,7 +41,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: RoutePath.home,
                 name: RouteNames.home,
-                builder: (context, state) => Container(),
+                builder: (context, state) => const HomeScreen(),
               ),
             ],
           ),
@@ -48,16 +50,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: RoutePath.write,
                 name: RouteNames.write,
-                builder: (context, state) => Container(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: RoutePath.profile,
-                name: RouteNames.profile,
-                builder: (context, state) => Container(),
+                builder: (context, state) => const BoardWriteScreen(),
               ),
             ],
           ),
@@ -78,7 +71,7 @@ GoRouter router(Ref ref) {
       if (authenticated == false) {
         return authenticating ? null : RoutePath.signin;
       }
-      return (authenticating) ? RoutePath.home : null;
+      return (authenticating) ? RoutePath.write : null;
     },
   );
 }
