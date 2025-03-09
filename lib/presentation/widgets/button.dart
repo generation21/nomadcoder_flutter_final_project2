@@ -8,23 +8,28 @@ class Button extends StatelessWidget {
   final String text;
   final void Function()? onTap;
   final double width;
+  final bool isLoading;
 
   const Button({
     super.key,
     required this.text,
     required this.onTap,
     this.width = double.infinity,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isLoading ? null : onTap,
       child: Container(
         width: width,
         padding: const EdgeInsets.symmetric(vertical: Sizes.size10),
         decoration: BoxDecoration(
-          color: AppColors.primaryColor,
+          color:
+              isLoading
+                  ? AppColors.primaryColor.withOpacity(0.7)
+                  : AppColors.primaryColor,
           borderRadius: BorderRadius.circular(AppDimensions.buttonRadius),
           border: const Border(
             top: BorderSide(color: AppColors.textPrimary, width: 2),
@@ -33,11 +38,23 @@ class Button extends StatelessWidget {
             right: BorderSide(color: AppColors.textPrimary, width: 4),
           ),
         ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: AppTextStyles.button,
-        ),
+        child:
+            isLoading
+                ? const Center(
+                  child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+                : Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.button,
+                ),
       ),
     );
   }
