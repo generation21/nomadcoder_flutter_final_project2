@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:nomadcoder_flutter_final_project2/core/config/env_config.dart';
-import 'package:nomadcoder_flutter_final_project2/repositories/auth_repository.dart';
 
 class ApiClient {
   late final Dio _dio;
